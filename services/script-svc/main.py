@@ -24,6 +24,20 @@ def load_duo(duo_id: str):
 
 @app.post("/script")
 async def script(req: ScriptReq):
+    if os.environ.get("SCRIPT_SVC_MOCK") == "1":
+        duo = load_duo(req.duo_id)
+        ids = list(duo["personas"].keys())
+        mock_lines = [
+            {"speaker": ids[0], "text": f"Arre, aaj ka topic hai - {req.topic}! Sun, bahut simple hai yeh."},
+            {"speaker": ids[1], "text": "Achha? Mujhe toh bahut complicated lagta hai yeh. Kaise kaam karta hai?"},
+            {"speaker": ids[0], "text": "Dekh, isko aise samajh - chhote chhote parts mein tod do, har part apna kaam karta hai."},
+            {"speaker": ids[1], "text": "Ohhh! Matlab ek bada problem, kai chhote solutions ka total?"},
+            {"speaker": ids[0], "text": "Exactly! Aur har part ko alag test kar sakte ho, alag fix kar sakte ho."},
+            {"speaker": ids[1], "text": "Sahi hai yaar! Ab samajh aaya. Toh shuru kahan se kare?"},
+            {"speaker": ids[0], "text": "Baby steps! Pehle ek chhota sa working version banao, phir features jodte jao."},
+        ]
+        return {"duo_id": req.duo_id, "topic": req.topic, "length_sec": req.length_sec,
+                "lines": mock_lines[:max(4, req.length_sec // 5)], "mock": True}
     key = os.environ.get("GROQ_API_KEY")
     if not key:
         raise HTTPException(500, "GROQ_API_KEY not set")

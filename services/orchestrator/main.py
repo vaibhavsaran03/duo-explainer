@@ -48,7 +48,15 @@ async def video(req: VideoReq):
                           "audio": name, "start": frame, "duration": n})
             frame += n
             assets.append({"name": name, "data_b64": base64.b64encode(rv.content).decode()})
-        speakers = {pid: {"art": p["art"], "name": pid} for pid, p in duo["personas"].items()}
+        speakers = {}
+        for pid, p in duo["personas"].items():
+            art_rel = p["art"]
+            art_path = os.path.join(os.path.dirname(DUOS_PATH), art_rel)
+            art_name = f"assets/art-{pid}{os.path.splitext(art_rel)[1]}"
+            if os.path.exists(art_path):
+                with open(art_path, "rb") as fh:
+                    assets.append({"name": art_name, "data_b64": base64.b64encode(fh.read()).decode()})
+            speakers[pid] = {"art": art_name, "name": pid}
         job = {"topic": req.topic, "speakers": speakers, "lines": lines,
                "totalFrames": frame + 15, "assets": assets}
         rr = await c.post(f"{STITCH_URL}/render", json=job, timeout=900)
