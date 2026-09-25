@@ -1,0 +1,38 @@
+{
+ "topic": "API kya hota hai?",
+ "fps": 30,
+ "speakers": {
+  "bhai": {
+   "art": "assets/doc.jpg",
+   "name": "Bhai"
+  },
+  "sidekick": {
+   "art": "assets/kid.jpg",
+   "name": "Sidekick"
+  }
+ },
+ "lines": [
+  {
+   "speaker": "bhai",
+   "text": "Arre bhidu, sun! Aaj main tujhe samjhata hoon - API kya hota hai!",
+   "audio": "assets/l1.mp3",
+   "start": 0,
+   "duration": 204
+  },
+  {
+   "speaker": "sidekick",
+   "text": "API? Woh kya cheez hai bhai? Koi naya app hai kya?",
+   "audio": "assets/l2.mp3",
+   "start": 204,
+   "duration": 188
+  },
+  {
+   "speaker": "bhai",
+   "text": "Nahi re! API matlab do apps ka baat karne ka tareeka. Jaise waiter order kitchen tak le jaata hai!",
+   "audio": "assets/l3.mp3",
+   "start": 392,
+   "duration": 298
+  }
+ ],
+ "totalFrames": 705
+}
