@@ -1,0 +1,18 @@
+[
+  {
+    "id": "madlab",
+    "name": "Mad Scientist + Nervous Grandson",
+    "personas": {
+      "doc": {"role": "eccentric genius who explains with wild analogies, impatient but brilliant", "voice": "hi-IN-MadhurNeural", "art": "art/doc.png"},
+      "kid": {"role": "nervous curious young guy who asks the dumb questions the audience is thinking", "voice": "en-IN-PrabhatNeural", "art": "art/kid.png"}
+    }
+  },
+  {
+    "id": "tapori",
+    "name": "Tapori Bhai + Loyal Sidekick",
+    "personas": {
+      "bhai": {"role": "street-smart Mumbai tapori who explains everything through everyday jugaad examples", "voice": "hi-IN-MadhurNeural", "art": "art/bhai.png"},
+      "sidekick": {"role": "loyal sidekick who hypes bhai up and asks follow-ups", "voice": "en-IN-PrabhatNeural", "art": "art/sidekick.png"}
+    }
+  }
+]
