@@ -32,3 +32,30 @@ async def tts(req: TTSReq):
 @app.get("/health")
 def health():
     return {"ok": True}
+
+class TimedWord(BaseModel):
+    word: str
+    start: float
+    end: float
+
+@app.post("/tts_timed")
+async def tts_timed(req: TTSReq):
+    """audio + word-boundary timings (edge-tts stream)."""
+    if not req.text.strip():
+        raise HTTPException(400, "empty text")
+    audio = bytearray()
+    words = []
+    try:
+        async for chunk in edge_tts.Communicate(req.text, req.voice, boundary="WordBoundary").stream():
+            if chunk["type"] == "audio":
+                audio += chunk["data"]
+            elif chunk["type"] == "WordBoundary":
+                words.append({"word": chunk["text"],
+                              "start": chunk["offset"] / 10_000_000,
+                              "end": (chunk["offset"] + chunk["duration"]) / 10_000_000})
+    except Exception as e:
+        raise HTTPException(502, f"edge-tts failed: {e}")
+    if len(audio) < 1000:
+        raise HTTPException(502, "edge-tts returned empty audio")
+    import base64 as b64
+    return {"audio_b64": b64.b64encode(bytes(audio)).decode(), "words": words}
